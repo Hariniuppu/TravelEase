@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+
 // Import Routes
 const packageRoutes = require("./routes/packageRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const destinationRoutes = require("./routes/destinationRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
@@ -30,6 +32,7 @@ app.use("/api/packages", packageRoutes);
 app.use("/api/customers", customerRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/destinations", destinationRoutes);
+app.use("/api/auth", authRoutes);
 
 // Server
 const PORT = process.env.PORT || 5000;

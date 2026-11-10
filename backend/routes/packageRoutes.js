@@ -1,21 +1,26 @@
-
 const express = require("express");
 const router = express.Router();
 
+const {
+    authMiddleware,
+    adminOnly
+} = require("../middleware/authMiddleware");
+
 const Package = require("../models/package.js");
 
-// Add Package
-router.post("/", async (req, res) => {
+// Add Package - Admin Only
+router.post("/", authMiddleware, adminOnly, async (req, res) => {
     try {
         const newPackage = new Package(req.body);
         await newPackage.save();
+
         res.status(201).json(newPackage);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-// View All Packages
+// View All Packages - Both Admin and User
 router.get("/", async (req, res) => {
     try {
         const packages = await Package.find();
@@ -25,13 +30,15 @@ router.get("/", async (req, res) => {
     }
 });
 
-// View Single Package
+// View Single Package - Both Admin and User
 router.get("/:id", async (req, res) => {
     try {
         const travelPackage = await Package.findById(req.params.id);
 
         if (!travelPackage) {
-            return res.status(404).json({ message: "Package not found" });
+            return res.status(404).json({
+                message: "Package not found"
+            });
         }
 
         res.json(travelPackage);
@@ -40,8 +47,8 @@ router.get("/:id", async (req, res) => {
     }
 });
 
-// Update Package
-router.put("/:id", async (req, res) => {
+// Update Package - Admin Only
+router.put("/:id", authMiddleware, adminOnly, async (req, res) => {
     try {
         const updatedPackage = await Package.findByIdAndUpdate(
             req.params.id,
@@ -50,7 +57,9 @@ router.put("/:id", async (req, res) => {
         );
 
         if (!updatedPackage) {
-            return res.status(404).json({ message: "Package not found" });
+            return res.status(404).json({
+                message: "Package not found"
+            });
         }
 
         res.json(updatedPackage);
@@ -59,16 +68,22 @@ router.put("/:id", async (req, res) => {
     }
 });
 
-// Delete Package
-router.delete("/:id", async (req, res) => {
+// Delete Package - Admin Only
+router.delete("/:id", authMiddleware, adminOnly, async (req, res) => {
     try {
-        const deletedPackage = await Package.findByIdAndDelete(req.params.id);
+        const deletedPackage = await Package.findByIdAndDelete(
+            req.params.id
+        );
 
         if (!deletedPackage) {
-            return res.status(404).json({ message: "Package not found" });
+            return res.status(404).json({
+                message: "Package not found"
+            });
         }
 
-        res.json({ message: "Package deleted successfully" });
+        res.json({
+            message: "Package deleted successfully"
+        });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
