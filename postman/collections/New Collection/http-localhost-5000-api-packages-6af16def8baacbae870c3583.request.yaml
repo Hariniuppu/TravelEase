@@ -1,0 +1,23 @@
+$kind: http-request
+name: http://localhost:5000/api/packages/6af16def8baacbae870c3583
+description: ""
+url: http://localhost:5000/api/packages/6af16def8baacbae870c3583
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \  \"title\": \"Goa Holiday Special\",\r
+
+    \  \"destination\": \"Goa\",\r
+
+    \  \"description\": \"Enjoy a wonderful Goa holiday\",\r
+
+    \  \"price\": 15000,\r
+
+    \  \"duration\": \"4 Days\",\r
+
+    \  \"image\": \"goa.jpg\"\r
+
+    }"
+order: 1000
